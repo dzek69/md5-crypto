@@ -1,1 +1,1 @@
-# md5-crypto
+# js-library-template
