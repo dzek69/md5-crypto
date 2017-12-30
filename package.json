@@ -1,11 +1,12 @@
 {
-  "name": "js-library-template",
-  "version": "1.0.1",
+  "name": "md5-crypto",
+  "version": "1.0.0",
   "main": "src/index.js",
-  "repository": "https://github.com/dzek69/js-library-template.git",
+  "repository": "https://github.com/dzek69/md5-crypto.git",
   "author": "Jacek Nowacki @dzek69 <git-public@dzek.eu>",
   "license": "MIT",
   "scripts": {
+    "benchmark": "node test/benchmark",
     "test": "NODE_ENV=testing mocha 'src/**/*.spec.js'",
     "docs": "node build-scripts/docs && jsdoc src/* README.md -t node_modules/docdash -d ./docs -u ./tutorials",
     "transpile": "node build-scripts/transpile && babel src -d dist --ignore spec.js",
@@ -18,6 +19,7 @@
     "docdash": "^0.4.0",
     "jsdoc": "^3.5.5",
     "lodash": "^4.17.4",
+    "md5": "^2.2.1",
     "mkdirp-promise": "^5.0.1",
     "mocha": "^4.0.1",
     "must": "^0.13.4",

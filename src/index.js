@@ -1,9 +1,12 @@
-/**
- * Returns "hi" followed by given name
- *
- * @param {string} name - name of person to greet
- * @returns {string} - greeting
- */
-const hi = (name) => "hi " + name;
+const crypto = require("crypto");
 
-module.exports = hi;
+/**
+ * Returns md5 hash of given string, TypedArray or DataView using node `crypto` module.
+ * @param {string|TypedArray|DataView} string - source data
+ * @returns {string} - hash
+ *
+ * @example md5("hi"); // returns "49f68a5c8493ec2c0bf489821c21fc3b"
+ */
+const md5 = string => crypto.createHash("md5").update(string).digest("hex");
+
+module.exports = md5;
