@@ -1,12 +1,12 @@
-const md5 = require("./index");
+import md5 from "./index";
 
 describe("md5-crypto", () => {
     describe("returns", () => {
-        it("expected result", function () {
+        it("expected result", function() {
             md5("Jack").must.equal("40687c8206d15373954d8b27c6724f62");
         });
 
-        it("doesn't force string values", function () {
+        it("doesn't force string values", function() {
             (() => md5("123")).must.not.throw();
             (() => md5(123)).must.throw(TypeError);
         });
@@ -14,17 +14,17 @@ describe("md5-crypto", () => {
 
     describe("works", () => {
         const cryptoMock = {
-            createHash: (... createArgs) => {
+            createHash: (...createArgs) => {
                 cryptoMock.__createHash.push(createArgs);
                 return {
-                    update: (... updateArgs) => {
+                    update: (...updateArgs) => {
                         cryptoMock.__update.push(updateArgs);
                         return {
-                            digest: (... digestArgs) => {
+                            digest: (...digestArgs) => {
                                 cryptoMock.__digest.push(digestArgs);
-                            }
-                        }
-                    }
+                            },
+                        };
+                    },
                 };
             },
             __createHash: [],
@@ -46,7 +46,7 @@ describe("md5-crypto", () => {
             cryptoMock.__digest.length = 0;
         });
 
-        it("by calling crypto methods as expected", function () {
+        it("by calling crypto methods as expected", function() {
             md5("Jack");
             cryptoMock.__createHash.must.eql([
                 ["md5"],
@@ -59,7 +59,7 @@ describe("md5-crypto", () => {
             ]);
         });
 
-        it("by ignoring additional arguments", function () {
+        it("by ignoring additional arguments", function() {
             md5("Jack", "Black");
             cryptoMock.__createHash.must.eql([
                 ["md5"],
@@ -71,6 +71,5 @@ describe("md5-crypto", () => {
                 ["hex"],
             ]);
         });
-
     });
 });

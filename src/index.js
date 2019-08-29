@@ -1,4 +1,4 @@
-const crypto = require("crypto");
+import crypto from "crypto";
 
 /**
  * Returns md5 hash of given string, TypedArray or DataView using node `crypto` module.
@@ -9,4 +9,4 @@ const crypto = require("crypto");
  */
 const md5 = string => crypto.createHash("md5").update(string).digest("hex");
 
-module.exports = md5;
+export default md5;

@@ -1,5 +1,5 @@
 const md5 = require("md5");
-const md5Crypto = require("./../src");
+const md5Crypto = require("./../dist").default;
 
 const SHORT_COUNT = 100000;
 const LONG_COUNT = 100;
