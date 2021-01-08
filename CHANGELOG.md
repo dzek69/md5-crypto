@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [UNRELEASED]
 (nothing yet)
 
+## [3.0.0] - 2020-01-08
+### Dev
+- add TypeScript support
+- replaced mocha with jest
+- replaced jsdoc with typedoc
+
 ## [2.0.0] - 2019-08-29
 ### Changed
 - code now follows es modules style

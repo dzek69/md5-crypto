@@ -1,37 +1,61 @@
 {
   "name": "md5-crypto",
-  "version": "2.0.0",
-  "main": "src/index.js",
-  "repository": "https://github.com/dzek69/md5-crypto.git",
-  "author": "Jacek Nowacki @dzek69 <git-public@dzek.eu>",
+  "version": "3.0.0",
+  "author": "Jacek Nowacki",
   "license": "MIT",
   "scripts": {
-    "benchmark": "node test/benchmark",
-    "test": "cross-env NODE_ENV=testing mocha 'src/**/*.spec.js'",
-    "docs": "node build-scripts/docs && jsdoc -r src README.md -t node_modules/docdash -d ./docs -u ./tutorials -c jsdoc.json && node build-scripts/docs.after",
-    "transpile": "node build-scripts/transpile && babel src -d dist --ignore **/*.spec.js",
-    "prepublishOnly": "npm run test && npm run lint && npm run docs",
-    "prepack": "npm run transpile",
-    "lint": "cross-env eslint --report-unused-disable-directives 'src/**/*.js' 'src/*.js'",
-    "lint:fix": "npm run lint -- --fix"
+    "benchmark": "node test/benchmark.cjs",
+    "test": "NODE_ENV=test jest",
+    "docs": "typedoc src/index.ts --out docs --listInvalidSymbolLinks --includes tutorials",
+    "compile": "yarn compile:esm && yarn compile:cjs",
+    "compile:esm": "rm -rf esm && tsc && node ./build-scripts/compile.esm.after.mjs",
+    "compile:cjs": "rm -rf dist && tsc --project tsconfig.cjs.json && node ./build-scripts/compile.cjs.after.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts,.tsx,.js,.jsx,.mjs",
+    "lint:fix": "yarn lint --fix",
+    "prepack": "yarn compile",
+    "prepublishOnly": "yarn lint && yarn test && yarn docs",
+    "start:dev": "nodemon",
+    "start:dev:compatibility": "TS_NODE_FILES=true yarn start:dev"
   },
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "default": "./esm/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./esm/index.d.js",
+  "module": "./esm/index.js",
+  "type": "module",
+  "dependencies": {},
   "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
-    "@babel/polyfill": "^7.4.4",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/register": "^7.5.5",
-    "@dzek69/eslint-config-base": "^1.0.0",
-    "babel-plugin-rewire": "^1.2.0",
-    "cross-env": "^5.2.0",
-    "docdash": "^1.1.1",
-    "eslint": "^6.2.2",
-    "fs-extra": "^7.0.1",
-    "jsdoc": "^3.6.3",
-    "mocha": "^6.2.0",
-    "must": "^0.13.4"
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-typescript": "^7.12.7",
+    "@dzek69/eslint-config-base": "^2.0.0",
+    "@dzek69/eslint-config-typescript": "^0.2.2",
+    "@typescript-eslint/eslint-plugin": "^4.11.1",
+    "@typescript-eslint/parser": "^4.11.1",
+    "eslint": "^7.14.0",
+    "fs-extra": "^9.0.1",
+    "husky": "^4.3.0",
+    "jest": "^26.6.3",
+    "md5": "^2.3.0",
+    "must": "^0.13.4",
+    "nodemon": "^2.0.6",
+    "ts-node": "^9.0.0",
+    "typedoc": "^0.20.4",
+    "typescript": "^4.1.2"
   },
-  "dependencies": {
-    "md5": "^2.2.1"
+  "husky": {
+    "hooks": {
+      "pre-push": "yarn prepublishOnly && yarn compile"
+    }
+  },
+  "libraryTemplate": {
+    "version": "0.0.2-beta.5",
+    "language": "typescript",
+    "fixDefaultForCommonJS": false
   }
 }
